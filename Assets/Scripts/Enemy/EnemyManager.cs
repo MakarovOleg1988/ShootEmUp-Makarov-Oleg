@@ -6,19 +6,17 @@ namespace ShootEmUp
 {
     public sealed class EnemyManager : MonoBehaviour
     {
-        [SerializeField]
-        private EnemyPool _enemyPool;
-
-        [SerializeField]
-        private BulletSystem _bulletSystem;
-        
+        [SerializeField] private EnemyPool _enemyPool;
+        [SerializeField] private BulletConfig bulletEnemyConfig;
+        [SerializeField] private BulletSystem _bulletSystem;
         private readonly HashSet<GameObject> m_activeEnemies = new();
+        [SerializeField] private float delaySpawnTime = 1.0f;
 
         private IEnumerator Start()
         {
             while (true)
             {
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(delaySpawnTime);
                 var enemy = this._enemyPool.SpawnEnemy();
                 if (enemy != null)
                 {
@@ -47,9 +45,9 @@ namespace ShootEmUp
             _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
             {
                 isPlayer = false,
-                physicsLayer = (int) PhysicsLayer.ENEMY,
-                color = Color.red,
-                damage = 1,
+                physicsLayer = (int)this.bulletEnemyConfig.PhysicsLayer,
+                color = this.bulletEnemyConfig.Color,
+                damage = this.bulletEnemyConfig.Damage,
                 position = position,
                 velocity = direction * 2.0f
             });

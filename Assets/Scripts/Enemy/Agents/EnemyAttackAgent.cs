@@ -2,16 +2,14 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent : MonoBehaviour
+    public sealed class EnemyAttackAgent : MonoBehaviour, IUnitAction
     {
         public delegate void FireHandler(GameObject enemy, Vector2 position, Vector2 direction);
-
         public event FireHandler OnFire;
 
         [SerializeField] private WeaponComponent weaponComponent;
         [SerializeField] private EnemyMoveAgent moveAgent;
         [SerializeField] private float countdown;
-
         private GameObject target;
         private float currentTime;
 
@@ -45,7 +43,7 @@ namespace ShootEmUp
             }
         }
 
-        private void Fire()
+        public void Fire()
         {
             var startPosition = this.weaponComponent.Position;
             var vector = (Vector2) this.target.transform.position - startPosition;

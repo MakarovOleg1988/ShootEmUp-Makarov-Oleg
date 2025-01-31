@@ -11,15 +11,14 @@ namespace ShootEmUp
                 return;
             }
 
-            if (bullet.isPlayer == team.IsPlayer)
+            if (bullet.IsPlayer == team.IsPlayer)
             {
                 return;
             }
 
             if (other.TryGetComponent(out HitPointsComponent hitPoints))
             {
-                hitPoints.TakeDamage(bullet.damage);
-                Debug.Log("JJ");
+                hitPoints.TakeDamage(bullet.Damage);
             }
         }
     }

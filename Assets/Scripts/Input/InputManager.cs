@@ -7,7 +7,7 @@ namespace ShootEmUp
     {
         public Action<Vector2> OnMove;
         public float HorizontalDirection { get; private set; }
-        [SerializeField] private CharacterController characterController;
+        [SerializeField] private CharacterController _characterController;
 
         private void Update()
         {
@@ -18,7 +18,7 @@ namespace ShootEmUp
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                characterController._fireRequired = true;
+                _characterController.FireRequired = true;
             }
 
             if (Input.GetKey(KeyCode.LeftArrow))

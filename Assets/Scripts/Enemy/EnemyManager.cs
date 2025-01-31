@@ -7,16 +7,17 @@ namespace ShootEmUp
     public sealed class EnemyManager : MonoBehaviour
     {
         [SerializeField] private EnemyPool _enemyPool;
-        [SerializeField] private BulletConfig bulletEnemyConfig;
+        [SerializeField] private BulletConfig _bulletEnemyConfig;
         [SerializeField] private BulletSystem _bulletSystem;
+        [SerializeField] private GameObject _character;
         private readonly HashSet<GameObject> m_activeEnemies = new();
-        [SerializeField] private float delaySpawnTime = 1.0f;
+        [SerializeField] private float _delaySpawnTime = 1.0f;
 
         private IEnumerator Start()
         {
             while (true)
             {
-                yield return new WaitForSeconds(delaySpawnTime);
+                yield return new WaitForSeconds(_delaySpawnTime);
                 var enemy = this._enemyPool.SpawnEnemy();
                 if (enemy != null)
                 {
@@ -27,6 +28,12 @@ namespace ShootEmUp
                     }    
                 }
             }
+        }
+
+        public Transform SetFireTarget()
+        {
+            Transform target = _character.transform;
+            return target;
         }
 
         private void OnDestroyed(GameObject enemy)
@@ -45,9 +52,9 @@ namespace ShootEmUp
             _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
             {
                 isPlayer = false,
-                physicsLayer = (int)this.bulletEnemyConfig.PhysicsLayer,
-                color = this.bulletEnemyConfig.Color,
-                damage = this.bulletEnemyConfig.Damage,
+                physicsLayer = (int)this._bulletEnemyConfig.PhysicsLayer,
+                color = this._bulletEnemyConfig.Color,
+                damage = this._bulletEnemyConfig.Damage,
                 position = position,
                 velocity = direction * 2.0f
             });

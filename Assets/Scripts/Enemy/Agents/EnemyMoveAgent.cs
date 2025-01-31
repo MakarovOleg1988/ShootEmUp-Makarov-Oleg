@@ -2,43 +2,47 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyMoveAgent : MonoBehaviour
+    public sealed class EnemyMoveAgent : MonoBehaviour, IMotionable
     {
-        [SerializeField] private MoveComponent moveComponent;
-        private Vector2 destination;
-        private bool isReached;
-        public bool IsReached
+        [SerializeField] private MoveComponent _moveComponent;
+        private Vector2 _destination;
+        public bool IsReached{ get; private set;}
+
+        private void OnEnable()
         {
-            get { return this.isReached; }
+            var attackPosition = FindObjectOfType<EnemyPositions>().RandomAttackPosition();
+            SetDestination(attackPosition);
         }
 
-        public void SetDestination(Vector2 endPoint)
+        public void SetDestination(Transform endPoint)
         {
-            this.destination = endPoint;
-            this.isReached = false;
+            _destination = endPoint.position;
+            IsReached = false;
         }
 
         private void FixedUpdate()
         {
-            Motion();
+            Motion(_destination);
         }
 
-        private void Motion()
+        public void Motion(Vector2 dir)
         {
-            if (this.isReached)
+            if (IsReached)
             {
                 return;
             }
-            
-            var vector = this.destination - (Vector2) this.transform.position;
+
+            var vector = dir - (Vector2)this.transform.position;
+
             if (vector.magnitude <= 0.25f)
             {
-                this.isReached = true;
+                IsReached = true;
                 return;
             }
 
-            var direction = vector.normalized * Time.fixedDeltaTime;
-            this.moveComponent.MoveByRigidbodyVelocity(direction);
+            var destination = vector.normalized * Time.fixedDeltaTime;
+            _moveComponent.MoveByRigidbodyVelocity(destination);
         }
+
     }
 }

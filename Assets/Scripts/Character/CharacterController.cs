@@ -2,15 +2,14 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : MonoBehaviour, IUnitAction
+    public sealed class CharacterController : MonoBehaviour, IFireable
     {
         private InputManager _input;
         [SerializeField] private GameObject _character;
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private BulletConfig _bulletPlayerConfig;
-
-        public bool _fireRequired;
+        public bool FireRequired{ get; set;}
 
         private void Awake()
         {
@@ -22,37 +21,36 @@ namespace ShootEmUp
             _input.OnMove += Motion;
         }
 
-        private void OnEnable() => this._character.GetComponent<HitPointsComponent>().hpEmpty += this.OnCharacterDeath;
-        private void OnDisable() => this._character.GetComponent<HitPointsComponent>().hpEmpty -= this.OnCharacterDeath;
-        private void OnCharacterDeath(GameObject _) => this._gameManager.FinishGame();
+        private void OnEnable() => _character.GetComponent<HitPointsComponent>().hpEmpty += this.OnCharacterDeath;
+        private void OnDisable() => _character.GetComponent<HitPointsComponent>().hpEmpty -= this.OnCharacterDeath;
+        private void OnCharacterDeath(GameObject _character) => _gameManager.FinishGame();
 
         private void FixedUpdate()
         {
-            this.Fire();
+            Fire();
         }
 
         private void Motion(Vector2 direction)
         {
-            this._character.GetComponent<MoveComponent>().MoveByRigidbodyVelocity(direction * Time.fixedDeltaTime);
+            _character.GetComponent<MoveComponent>().MoveByRigidbodyVelocity(direction * Time.fixedDeltaTime);
         }
 
         public void Fire()
         {
-            if (this._fireRequired)
+            if (FireRequired)
             {
-
-                WeaponComponent weapon = this._character.GetComponent<WeaponComponent>();
+                WeaponComponent weapon = _character.GetComponent<WeaponComponent>();
                 _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
                 {
                     isPlayer = true,
-                    physicsLayer = (int)this._bulletPlayerConfig.PhysicsLayer,
-                    color = this._bulletPlayerConfig.Color,
-                    damage = this._bulletPlayerConfig.Damage,
+                    physicsLayer = (int)_bulletPlayerConfig.PhysicsLayer,
+                    color = _bulletPlayerConfig.Color,
+                    damage = _bulletPlayerConfig.Damage,
                     position = weapon.Position,
-                    velocity = weapon.Rotation * Vector3.up * this._bulletPlayerConfig.Speed
+                    velocity = weapon.Rotation * Vector3.up * _bulletPlayerConfig.Speed
                 });
 
-                this._fireRequired = false;
+                FireRequired = false;
             }
         }
 

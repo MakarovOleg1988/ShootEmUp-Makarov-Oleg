@@ -16,6 +16,7 @@ namespace ShootEmUp
         public void TakeDamage(int damage)
         {
             _hitPoints -= damage;
+            Debug.Log(_hitPoints);
             
             if (_hitPoints <= 0)
             {

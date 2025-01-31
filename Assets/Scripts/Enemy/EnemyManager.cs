@@ -13,7 +13,12 @@ namespace ShootEmUp
         private readonly HashSet<GameObject> m_activeEnemies = new();
         [SerializeField] private float _delaySpawnTime = 1.0f;
 
-        private IEnumerator Start()
+        private void Start()
+        {
+            StartCoroutine(PrepareEnemyPool());
+        }
+
+        private IEnumerator PrepareEnemyPool()
         {
             while (true)
             {
@@ -25,7 +30,7 @@ namespace ShootEmUp
                     {
                         enemy.GetComponent<HitPointsComponent>().hpEmpty += this.OnDestroyed;
                         enemy.GetComponent<EnemyAttackAgent>().OnFire += this.OnFire;
-                    }    
+                    }
                 }
             }
         }
@@ -34,17 +39,6 @@ namespace ShootEmUp
         {
             Transform target = _character.transform;
             return target;
-        }
-
-        private void OnDestroyed(GameObject enemy)
-        {
-            if (m_activeEnemies.Remove(enemy))
-            {
-                enemy.GetComponent<HitPointsComponent>().hpEmpty -= this.OnDestroyed;
-                enemy.GetComponent<EnemyAttackAgent>().OnFire -= this.OnFire;
-
-                _enemyPool.UnspawnEnemy(enemy);
-            }
         }
 
         private void OnFire(GameObject enemy, Vector2 position, Vector2 direction)
@@ -58,6 +52,17 @@ namespace ShootEmUp
                 position = position,
                 velocity = direction * 2.0f
             });
+        }
+
+        private void OnDestroyed(GameObject enemy)
+        {
+            if (m_activeEnemies.Remove(enemy))
+            {
+                enemy.GetComponent<HitPointsComponent>().hpEmpty -= this.OnDestroyed;
+                enemy.GetComponent<EnemyAttackAgent>().OnFire -= this.OnFire;
+
+                _enemyPool.UnspawnEnemy(enemy);
+            }
         }
     }
 }

@@ -15,7 +15,6 @@ namespace ShootEmUp
         private void Start()
         {
             _target = FindObjectOfType<EnemyManager>().SetFireTarget();
-
             _currentTime = _countdown;
         }
 

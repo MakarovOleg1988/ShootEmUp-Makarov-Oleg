@@ -9,6 +9,8 @@ namespace ShootEmUp
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private BulletConfig _bulletPlayerConfig;
+        [SerializeField] private LevelBounds _levelBounds;
+        private float offsetX = 0.01f;
         public bool FireRequired{ get; set;}
 
         private void Awake()
@@ -32,7 +34,22 @@ namespace ShootEmUp
 
         private void Motion(Vector2 direction)
         {
-            _character.GetComponent<MoveComponent>().MoveByRigidbodyVelocity(direction * Time.fixedDeltaTime);
+            if (_levelBounds.InBounds(_character.transform.position))
+            {
+                _character.GetComponent<MoveComponent>().MoveByRigidbodyVelocity(direction * Time.fixedDeltaTime);
+            }
+            else
+            {
+                CheckBorders();
+            }
+        }
+
+        private void CheckBorders()
+        {
+                Vector2 vector = _character.transform.position;
+        
+                if (vector.x > _levelBounds.LeftBorder.position.x) _character.transform.position = new Vector2(vector.x - offsetX, vector.y);
+                if (vector.x < _levelBounds.RightBorder.position.x) _character.transform.position = new Vector2(vector.x + offsetX, vector.y);
         }
 
         public void Fire()

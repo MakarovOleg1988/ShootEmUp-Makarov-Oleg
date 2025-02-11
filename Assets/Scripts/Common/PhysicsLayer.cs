@@ -1,6 +1,6 @@
 namespace ShootEmUp
 {
-    public enum PhysicsLayer
+    public enum PhysicsLayer : int
     {
         CHARACTER = 10,
         ENEMY = 11,

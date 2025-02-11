@@ -5,18 +5,14 @@ namespace ShootEmUp
     public sealed class GameStateController : MonoBehaviour
     {
         [SerializeField] private StartGameInstaller _startGameInstaller;
-        [Space(10f)]public GameState GameState;
-
-        private async void Start()
-        {
-            await _startGameInstaller.SetLink();
-        }
+        [Space(10f)] private GameState _gameState;
 
         public void StartGame()
         {
-            GameState = GameState.PLAYING;
+            _gameState = GameState.PLAYING;
+            Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller._gameStateListener)
+            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
             {
                 if (listener is IStartGameListener l) 
                 {
@@ -27,9 +23,10 @@ namespace ShootEmUp
 
         public void MainMenu()
         {
-            GameState = GameState.MAINMENU;
+            _gameState = GameState.MAINMENU;
+            Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller._gameStateListener)
+            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
             {
                 if (listener is IResumeGameListener l) 
                 {
@@ -40,9 +37,10 @@ namespace ShootEmUp
 
         public void PauseMenu()
         {
-            GameState = GameState.PAUSED;
+            _gameState = GameState.PAUSED;
+            Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller._gameStateListener)
+            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
             {
                 if (listener is IPauseGameListener l) 
                 {
@@ -53,9 +51,10 @@ namespace ShootEmUp
 
         public void ResumeGame()
         {
-            GameState = GameState.PLAYING;
+            _gameState = GameState.PLAYING;
+            Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller._gameStateListener)
+            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
             {
                 if (listener is IResumeGameListener l) 
                 {
@@ -66,9 +65,9 @@ namespace ShootEmUp
 
         public void FinishViewer()
         {
-            GameState = GameState.FINISHED;
+            _gameState = GameState.FINISHED;
 
-            foreach (IGameStateListener listener in _startGameInstaller._gameStateListener)
+            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
             {
                 if (listener is IFinishGameListener l) 
                 {

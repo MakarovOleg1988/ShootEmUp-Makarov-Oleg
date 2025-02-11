@@ -10,8 +10,11 @@ namespace ShootEmUp
         [SerializeField] private BulletConfig _bulletEnemyConfig;
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private GameObject _character;
-        private readonly HashSet<GameObject> m_activeEnemies = new();
-        [SerializeField] private float _delaySpawnTime = 1.0f;
+
+        [SerializeField, Range(1.0f, 10.0f)] private float _delaySpawnTime = 1.0f;
+        [SerializeField, Range(1.0f, 10.0f)] private float _offset = 2.0f;
+
+        private readonly HashSet<GameObject> _activeEnemies = new();
 
         private void Start()
         {
@@ -23,19 +26,22 @@ namespace ShootEmUp
             while (true)
             {
                 yield return new WaitForSeconds(_delaySpawnTime);
-                var enemy = this._enemyPool.SpawnEnemy();
-                if (enemy != null)
+
+                GameObject enemyShip;
+                _enemyPool.TrySpawnEnemy(out enemyShip);
+                
+                if (enemyShip != null)
                 {
-                    if (this.m_activeEnemies.Add(enemy))
+                    if (_activeEnemies.Add(enemyShip))
                     {
-                        enemy.GetComponent<HitPointsComponent>().hpEmpty += this.OnDestroyed;
-                        enemy.GetComponent<EnemyAttackAgent>().OnFire += this.OnFire;
+                        enemyShip.GetComponent<Enemy>()._hitPointsComponent.OnIsHpEmpty += OnDestroyed;
+                        enemyShip.GetComponent<EnemyAttackAgent>().OnFire += OnFire;
                     }
                 }
             }
         }
 
-        public Transform SetFireTarget()
+        public Transform GetFireTarget()
         {
             Transform target = _character.transform;
             return target;
@@ -45,20 +51,20 @@ namespace ShootEmUp
         {
             _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
             {
-                isPlayer = false,
-                physicsLayer = (int)this._bulletEnemyConfig.PhysicsLayer,
-                color = this._bulletEnemyConfig.Color,
-                damage = this._bulletEnemyConfig.Damage,
-                position = position,
-                velocity = direction * 2.0f
+                IsPlayer = false,
+                PhysicsLayer = (int)this._bulletEnemyConfig.PhysicsLayer,
+                Color = this._bulletEnemyConfig.Color,
+                Damage = this._bulletEnemyConfig.Damage,
+                Position = position,
+                Velocity = direction * _offset
             });
         }
 
         private void OnDestroyed(GameObject enemy)
         {
-            if (m_activeEnemies.Remove(enemy))
+            if (_activeEnemies.Remove(enemy))
             {
-                enemy.GetComponent<HitPointsComponent>().hpEmpty -= this.OnDestroyed;
+                enemy.GetComponent<Enemy>()._hitPointsComponent.OnIsHpEmpty -= this.OnDestroyed;
                 enemy.GetComponent<EnemyAttackAgent>().OnFire -= this.OnFire;
 
                 _enemyPool.UnspawnEnemy(enemy);

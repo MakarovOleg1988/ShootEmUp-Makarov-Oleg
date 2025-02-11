@@ -4,13 +4,15 @@ namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent : MonoBehaviour, IMotionable
     {
-        [SerializeField] private MoveComponent _moveComponent;
+        private Enemy _enemy => this.gameObject.GetComponent<Enemy>();
         private Vector2 _destination;
+        
+        private float _valueMagnitude = 0.25f;
         public bool IsReached{ get; private set;}
 
         private void OnEnable()
         {
-            var attackPosition = FindObjectOfType<EnemyPositions>().RandomAttackPosition();
+            var attackPosition = ServiceLocator.GetService<EnemyPositions>().RandomAttackPosition();
             SetDestination(attackPosition);
         }
 
@@ -27,21 +29,18 @@ namespace ShootEmUp
 
         public void Motion(Vector2 dir)
         {
-            if (IsReached)
-            {
-                return;
-            }
+            if (IsReached) return;
 
             var vector = dir - (Vector2)this.transform.position;
 
-            if (vector.magnitude <= 0.25f)
+            if (vector.magnitude <= _valueMagnitude)
             {
                 IsReached = true;
                 return;
             }
 
             var destination = vector.normalized * Time.fixedDeltaTime;
-            _moveComponent.MoveByRigidbodyVelocity(destination);
+            _enemy._moveComponent.MoveByRigidbodyVelocity(destination);
         }
 
     }

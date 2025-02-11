@@ -2,14 +2,18 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameManager : MonoBehaviour, IStartGameListener, IResumeGameListener, IFinishGameListener, IPauseGameListener
+    public sealed class GameManager : MonoBehaviour, IStartGameListener, IResumeGameListener, IFinishGameListener, IPauseGameListener, IStartMainMenuListener
     {
-        [SerializeField] private UIFinishViewer _uIFinishViewer;
+        [SerializeField] private InputManager _input;
 
         public void FinishGame()
         {
-            _uIFinishViewer.onShowFinishCanvas.Invoke();
             Time.timeScale = 0;
+        }
+
+        public void StartMainMenu()
+        {
+            Time.timeScale = 1;
         }
 
         public void PauseGame()

@@ -4,28 +4,43 @@ namespace ShootEmUp
 {
     public sealed class CharacterController : MonoBehaviour, IFireable
     {
-        private InputManager _input;
+        [Header("Objects")]
         [SerializeField] private GameObject _character;
-        [SerializeField] private GameManager _gameManager;
+        [SerializeField] private LevelBounds _levelBounds;
+
+        [Header("Config")]
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private BulletConfig _bulletPlayerConfig;
-        [SerializeField] private LevelBounds _levelBounds;
-        private float offsetX = 0.01f;
-        public bool FireRequired{ get; set;}
+        [SerializeField] private InputManager _input;
 
-        private void Awake()
-        {
-            _input = FindObjectOfType<InputManager>();
-        }
+        private MainCharacter _mainCharacter => _character.GetComponent<MainCharacter>();
+        private float _offsetX = 0.01f;
 
         private void Start()
         {
             _input.OnMove += Motion;
         }
 
-        private void OnEnable() => _character.GetComponent<HitPointsComponent>().hpEmpty += this.OnCharacterDeath;
-        private void OnDisable() => _character.GetComponent<HitPointsComponent>().hpEmpty -= this.OnCharacterDeath;
-        private void OnCharacterDeath(GameObject _character) => _gameManager.FinishGame();
+        private void OnEnable()
+        {
+            if (_mainCharacter._hitPointsComponent.TryGetComponent(out HitPointsComponent _hitPointsComponent))
+            {
+                _hitPointsComponent.OnIsHpEmpty += this.OnCharacterDeath;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_mainCharacter._hitPointsComponent.TryGetComponent(out HitPointsComponent hitPointsComponent))
+            {
+                hitPointsComponent.OnIsHpEmpty -= this.OnCharacterDeath;
+            }
+        }
+
+        private void OnCharacterDeath(GameObject character)
+        {
+            ServiceLocator.GetService<GameStateController>().FinishViewer();
+        }
 
         private void FixedUpdate()
         {
@@ -34,9 +49,10 @@ namespace ShootEmUp
 
         private void Motion(Vector2 direction)
         {
-            if (_levelBounds.InBounds(_character.transform.position))
+            if (_levelBounds.InBounds(_mainCharacter._unitPos.position))
             {
-                _character.GetComponent<MoveComponent>().MoveByRigidbodyVelocity(direction * Time.fixedDeltaTime);
+                
+                _mainCharacter._moveComponent.MoveByRigidbodyVelocity(direction * Time.fixedDeltaTime);
             }
             else
             {
@@ -46,28 +62,27 @@ namespace ShootEmUp
 
         private void CheckBorders()
         {
-                Vector2 vector = _character.transform.position;
-        
-                if (vector.x > _levelBounds.LeftBorder.position.x) _character.transform.position = new Vector2(vector.x - offsetX, vector.y);
-                if (vector.x < _levelBounds.RightBorder.position.x) _character.transform.position = new Vector2(vector.x + offsetX, vector.y);
+            Vector2 vector = _mainCharacter._unitPos.position;
+
+            if (vector.x > _levelBounds.LeftBorder.position.x) _mainCharacter._unitPos.position = new Vector2(vector.x - _offsetX, vector.y);
+            if (vector.x < _levelBounds.RightBorder.position.x) _mainCharacter._unitPos.position = new Vector2(vector.x + _offsetX, vector.y);
         }
 
         public void Fire()
         {
-            if (FireRequired)
+            if (_input.FireRequired)
             {
-                WeaponComponent weapon = _character.GetComponent<WeaponComponent>();
                 _bulletSystem.FlyBulletByArgs(new BulletSystem.Args
                 {
-                    isPlayer = true,
-                    physicsLayer = (int)_bulletPlayerConfig.PhysicsLayer,
-                    color = _bulletPlayerConfig.Color,
-                    damage = _bulletPlayerConfig.Damage,
-                    position = weapon.Position,
-                    velocity = weapon.Rotation * Vector3.up * _bulletPlayerConfig.Speed
+                    IsPlayer = true,
+                    PhysicsLayer = (int)_bulletPlayerConfig.PhysicsLayer,
+                    Color = _bulletPlayerConfig.Color,
+                    Damage = _bulletPlayerConfig.Damage,
+                    Position = _mainCharacter._weaponComponent.Position,
+                    Velocity = _mainCharacter._weaponComponent.Rotation * Vector3.up * _bulletPlayerConfig.Speed
                 });
 
-                FireRequired = false;
+                _input.FireRequired = false;
             }
         }
 

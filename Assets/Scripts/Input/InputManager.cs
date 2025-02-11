@@ -6,10 +6,9 @@ namespace ShootEmUp
     public sealed class InputManager : MonoBehaviour
     {
         public Action<Vector2> OnMove;
-        [SerializeField] private CharacterController _characterController;
-        [SerializeField] private GameStateController _gameStateController;
         public float HorizontalDirection { get; private set; }
         public bool IsPaused { get; private set; }
+        public bool FireRequired{ get; set;}
 
         private void Update()
         {
@@ -27,7 +26,7 @@ namespace ShootEmUp
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _characterController.FireRequired = true;
+                FireRequired = true;
             }
         }
 
@@ -47,23 +46,25 @@ namespace ShootEmUp
             }
         }
 
-        private void UIHandler()
-        {
-            if (Input.GetKeyDown(KeyCode.P) && IsPaused == false)
-            {
-                _gameStateController.PauseMenu();
-                IsPaused = true;  
-            } 
-            else if (Input.GetKeyDown(KeyCode.P) && IsPaused == true) 
-            {
-                _gameStateController.ResumeGame();
-                IsPaused = false;   
-            }
-        }
-
         private void Move(Vector2 direction)
         {
             OnMove.Invoke(direction);
         }
+
+        private void UIHandler()
+        {
+            if (Input.GetKeyDown(KeyCode.P) && IsPaused == false)
+            {
+                ServiceLocator.GetService<GameStateController>().PauseMenu();
+                IsPaused = true;  
+            } 
+            else if (Input.GetKeyDown(KeyCode.P) && IsPaused == true) 
+            {
+                ServiceLocator.GetService<GameStateController>().ResumeGame();
+                IsPaused = false;   
+            }
+        }
+
+
     }
 }

@@ -3,27 +3,19 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class UIFinishViewer : MonoBehaviour, IDisposable
+    public sealed class UIFinishViewer : MonoBehaviour, IFinishGameListener
     {
-        private Canvas canvas;
-        public Action onShowFinishCanvas;
+        private Canvas _canvas;
 
         private void Start()
         {
-            canvas = this.gameObject.GetComponent<Canvas>();
-
-            onShowFinishCanvas += ShowFinishCanvas;
+            _canvas = gameObject.GetComponent<Canvas>();
         }
 
-        private void ShowFinishCanvas()
+        public void FinishGame()
         {
-            canvas.EnableComponent();
+            _canvas.EnableComponent();
             Debug.Log("Game over!");
-        }
-
-        public void Dispose()
-        {
-            onShowFinishCanvas -= ShowFinishCanvas;
         }
     }
 }

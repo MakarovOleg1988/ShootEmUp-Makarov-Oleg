@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace ShootEmUp
         [SerializeField] private Transform _container;
         [SerializeField] private GameObject _prefab;
 
-        private readonly Queue<GameObject> enemyPool = new();
+        private readonly Queue<GameObject> _enemyPool = new();
         
         private void Awake()
         {
@@ -25,15 +26,15 @@ namespace ShootEmUp
             for (var i = 0; i < value; i++)
             {
                 var enemy = Instantiate(_prefab, _container);
-                enemyPool.Enqueue(enemy);
+                _enemyPool.Enqueue(enemy);
             }
         }
 
-        public GameObject SpawnEnemy()
+        public bool TrySpawnEnemy(out GameObject spaceShip)
         {
-            if (!enemyPool.TryDequeue(out var enemy))
+            if (!_enemyPool.TryDequeue(out var enemy))
             {
-                return null;
+                return spaceShip = null;
             }
 
             enemy.transform.SetParent(_ActiveEnemyContainer);
@@ -41,13 +42,19 @@ namespace ShootEmUp
             var spawnPosition = _enemyPositions.RandomSpawnPosition();
             enemy.transform.position = spawnPosition.position;
             
-            return enemy;
+            return spaceShip = enemy;
         }
 
         public void UnspawnEnemy(GameObject enemy)
         {
             enemy.transform.SetParent(_container);
-            enemyPool.Enqueue(enemy);
+            _enemyPool.Enqueue(enemy);
         }
+
+        internal GameObject TrySpawnEnemy()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

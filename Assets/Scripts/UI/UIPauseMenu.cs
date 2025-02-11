@@ -4,35 +4,35 @@ using UnityEngine.UI;
 
 namespace ShootEmUp
 {
-    public sealed class UIPauseMenu : MonoBehaviour, IResumeGameListener, IStartMainMenuListener, IPauseGameListener, IDisposable
+    public sealed class UIPauseMenu : MonoBehaviour, IPauseGameListener, IResumeGameListener, IDisposable
     {
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private SceneSwitcher _sceneSwitcher;
-        [SerializeField] private Button _resumeGameButton, _returnToMainMenuButton;
+        [SerializeField] private Button _returnToMainMenuButton;
 
         private void Awake()
         {
-            _resumeGameButton.onClick.AddListener(ResumeGame);
             _returnToMainMenuButton.onClick.AddListener(StartMainMenu);
         }
 
         public void PauseGame()
         {
-            this.gameObject.GetComponent<Canvas>().EnableComponent();
+            _canvas.EnableComponent();
         }
 
         public void ResumeGame()
         {
-            this.gameObject.GetComponent<Canvas>().DisableComponent();
+            _canvas.DisableComponent();
         }
 
         public void StartMainMenu()
         {
+            ServiceLocator.GetService<GameStateController>().ResumeGame();
             _sceneSwitcher.LoadMainMenuScene();
         }
 
         public void Dispose()
         {
-            _resumeGameButton.onClick.RemoveListener(ResumeGame);
             _returnToMainMenuButton.onClick.RemoveListener(StartMainMenu);
         }
 

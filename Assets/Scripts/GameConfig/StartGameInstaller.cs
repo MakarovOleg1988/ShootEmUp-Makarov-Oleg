@@ -7,9 +7,9 @@ namespace ShootEmUp
     public class StartGameInstaller : MonoBehaviour
     {
         public IGameStateListener[] GameStateListener;
-        [SerializeField] private GameStateController _gameStateController;
-        [SerializeField] private EnemyPositions _EnemyPositions;
-        [SerializeField] private EnemyManager _enemyManager;
+        [Space(15f), SerializeField] private GameStateController _gameStateController;
+        [Space(15f), SerializeField] private EnemyPositions _EnemyPositions;
+        [Space(15f), SerializeField] private EnemyManager _enemyManager;
 
         private int _delayTimer = 200;
 

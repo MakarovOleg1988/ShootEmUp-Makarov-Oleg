@@ -50,11 +50,5 @@ namespace ShootEmUp
             enemy.transform.SetParent(_container);
             _enemyPool.Enqueue(enemy);
         }
-
-        internal GameObject TrySpawnEnemy()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

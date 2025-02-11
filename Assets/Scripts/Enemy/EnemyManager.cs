@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyManager : MonoBehaviour
+    public sealed class EnemyManager : Enemy
     {
         [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private BulletConfig _bulletEnemyConfig;
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private GameObject _character;
-
         [SerializeField, Range(1.0f, 10.0f)] private float _delaySpawnTime = 1.0f;
         [SerializeField, Range(1.0f, 10.0f)] private float _offset = 2.0f;
 
@@ -32,10 +31,10 @@ namespace ShootEmUp
                 
                 if (enemyShip != null)
                 {
-                    if (_activeEnemies.Add(enemyShip))
+                    if (this._activeEnemies.Add(enemyShip))
                     {
-                        enemyShip.GetComponent<Enemy>()._hitPointsComponent.OnIsHpEmpty += OnDestroyed;
-                        enemyShip.GetComponent<EnemyAttackAgent>().OnFire += OnFire;
+                        enemyShip.GetComponent<HitPointsComponent>().OnIsHpEmpty += this.OnDestroyed;
+                        enemyShip.GetComponent<EnemyAttackAgent>().OnFire += this.OnFire;
                     }
                 }
             }
@@ -64,7 +63,7 @@ namespace ShootEmUp
         {
             if (_activeEnemies.Remove(enemy))
             {
-                enemy.GetComponent<Enemy>()._hitPointsComponent.OnIsHpEmpty -= this.OnDestroyed;
+                enemy.GetComponent<HitPointsComponent>().OnIsHpEmpty -= this.OnDestroyed;
                 enemy.GetComponent<EnemyAttackAgent>().OnFire -= this.OnFire;
 
                 _enemyPool.UnspawnEnemy(enemy);

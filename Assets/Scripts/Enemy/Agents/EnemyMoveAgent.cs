@@ -2,13 +2,18 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyMoveAgent : MonoBehaviour, IMotionable
+    public sealed class EnemyMoveAgent : Enemy, IMotionable
     {
         private Enemy _enemy => this.gameObject.GetComponent<Enemy>();
         private Vector2 _destination;
         
         private float _valueMagnitude = 0.25f;
         public bool IsReached{ get; private set;}
+
+        private void Awake()
+        {
+            _moveComponent = this.gameObject.GetComponent<MoveComponent>();        
+        }
 
         private void OnEnable()
         {
@@ -40,7 +45,7 @@ namespace ShootEmUp
             }
 
             var destination = vector.normalized * Time.fixedDeltaTime;
-            _enemy._moveComponent.MoveByRigidbodyVelocity(destination);
+            _moveComponent.MoveByRigidbodyVelocity(destination);
         }
 
     }

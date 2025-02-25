@@ -30,17 +30,17 @@ namespace ShootEmUp
 
         private void OnEnable()
         {
-            if (_hitPointsComponent.TryGetComponent(out HitPointsComponent hitPointsComponent))
+            if (_hitPointsComponent != null)
             {
-                hitPointsComponent.OnIsHpEmpty += this.OnCharacterDeath;
+                _hitPointsComponent.OnIsHpEmpty += this.OnCharacterDeath;
             }
         }
 
         private void OnDisable()
         {
-            if (_hitPointsComponent.TryGetComponent(out HitPointsComponent hitPointsComponent))
+            if (_hitPointsComponent != null)
             {
-                hitPointsComponent.OnIsHpEmpty -= this.OnCharacterDeath;
+                _hitPointsComponent.OnIsHpEmpty -= this.OnCharacterDeath;
             }
         }
 

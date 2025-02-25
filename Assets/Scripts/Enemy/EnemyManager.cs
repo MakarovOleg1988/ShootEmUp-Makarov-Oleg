@@ -34,7 +34,11 @@ namespace ShootEmUp
                     if (this._activeEnemies.Add(enemyShip))
                     {
                         enemyShip.GetComponent<HitPointsComponent>().OnIsHpEmpty += this.OnDestroyed;
-                        enemyShip.GetComponent<EnemyAttackAgent>().OnFire += this.OnFire;
+                        
+                        if (enemyShip.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
+                        {
+                            enemyAttackAgent.OnFire += this.OnFire;
+                        }
                     }
                 }
             }

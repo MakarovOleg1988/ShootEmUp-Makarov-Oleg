@@ -4,9 +4,8 @@ namespace ShootEmUp
 {
     public sealed class EnemyMoveAgent : Enemy, IMotionable
     {
-        private Enemy _enemy => this.gameObject.GetComponent<Enemy>();
         private Vector2 _destination;
-        
+
         private float _valueMagnitude = 0.25f;
         public bool IsReached{ get; private set;}
 

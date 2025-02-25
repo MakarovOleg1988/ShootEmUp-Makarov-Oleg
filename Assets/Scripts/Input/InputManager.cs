@@ -5,7 +5,8 @@ namespace ShootEmUp
 {
     public sealed class InputManager : MonoBehaviour
     {
-        public Action<Vector2> OnMove;
+        public event Action<Vector2> OnMove;
+        public event Action<bool> onPause;
         public float HorizontalDirection { get; private set; }
         public bool IsPaused { get; private set; }
         public bool FireRequired{ get; set;}
@@ -48,23 +49,21 @@ namespace ShootEmUp
 
         private void Move(Vector2 direction)
         {
-            OnMove.Invoke(direction);
+            OnMove?.Invoke(direction);
         }
 
         private void UIHandler()
         {
             if (Input.GetKeyDown(KeyCode.P) && IsPaused == false)
             {
-                ServiceLocator.GetService<GameStateController>().PauseMenu();
                 IsPaused = true;  
+                onPause?.Invoke(IsPaused);
             } 
             else if (Input.GetKeyDown(KeyCode.P) && IsPaused == true) 
             {
-                ServiceLocator.GetService<GameStateController>().ResumeGame();
-                IsPaused = false;   
+                IsPaused = false;  
+                onPause?.Invoke(IsPaused);   
             }
         }
-
-
     }
 }

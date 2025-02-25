@@ -874,6 +874,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Main Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 7753689412416282135, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7753689412416282135, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7753689412416282135, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8139970643913201269}
+    - target: {fileID: 7753689412416282135, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8139970643913201272, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
         type: 3}
       propertyPath: _count
@@ -1004,6 +1024,12 @@ PrefabInstance:
 --- !u!224 &8139970643913201268 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9075585787632070874, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8139970643913201267}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8139970643913201269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6019117320574085750, guid: 0bf011d4fa9ab3b4a8cb0e895588ed6f,
     type: 3}
   m_PrefabInstance: {fileID: 8139970643913201267}
   m_PrefabAsset: {fileID: 0}

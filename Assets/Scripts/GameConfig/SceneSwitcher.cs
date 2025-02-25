@@ -5,7 +5,7 @@ namespace ShootEmUp
 {
     public class SceneSwitcher : MonoBehaviour
     {
-private int _defaultScene = 0;
+        private int _defaultScene = 0;
 
         public void LoadSelectedScene(int indexScene)
         {

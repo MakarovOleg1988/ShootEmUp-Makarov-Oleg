@@ -4,8 +4,6 @@ namespace ShootEmUp
 {
     public sealed class GameManager : MonoBehaviour, IStartGameListener, IResumeGameListener, IFinishGameListener, IPauseGameListener, IStartMainMenuListener
     {
-        [SerializeField] private InputManager _input;
-
         public void FinishGame()
         {
             Time.timeScale = 0;

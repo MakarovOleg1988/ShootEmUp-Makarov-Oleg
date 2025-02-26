@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBackground : MonoBehaviour
+    public sealed class LevelBackground : MonoBehaviour, IFixedUpdateable
     {
         [SerializeField] private Params _params;
 
@@ -30,7 +30,7 @@ namespace ShootEmUp
             _positionZ = position.z;
         }
 
-        private void FixedUpdate()
+        public void CustomFixedUpdate()
         {
             MoveLevelBoard();
         }

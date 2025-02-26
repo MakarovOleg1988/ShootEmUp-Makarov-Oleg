@@ -4,15 +4,20 @@ namespace ShootEmUp
 {
     public sealed class GameStateController : MonoBehaviour
     {
-        [SerializeField] private StartGameInstaller _startGameInstaller;
+        private GameInstaller _gameInstaller;
         [Space(10f)] private GameState _gameState;
+
+        private void Start()
+        {
+            _gameInstaller = ServiceLocator.GetService<GameInstaller>();
+        }
 
         public void StartGame()
         {
             _gameState = GameState.PLAYING;
             Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
+            foreach (IGameStateListener listener in _gameInstaller.GameStateListener)
             {
                 if (listener is IStartGameListener l) 
                 {
@@ -26,7 +31,7 @@ namespace ShootEmUp
             _gameState = GameState.MAINMENU;
             Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
+            foreach (IGameStateListener listener in _gameInstaller.GameStateListener)
             {
                 if (listener is IResumeGameListener l) 
                 {
@@ -40,7 +45,7 @@ namespace ShootEmUp
             _gameState = GameState.PAUSED;
             Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
+            foreach (IGameStateListener listener in _gameInstaller.GameStateListener)
             {
                 if (listener is IPauseGameListener l) 
                 {
@@ -54,7 +59,7 @@ namespace ShootEmUp
             _gameState = GameState.PLAYING;
             Debug.Log(_gameState);
 
-            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
+            foreach (IGameStateListener listener in _gameInstaller.GameStateListener)
             {
                 if (listener is IResumeGameListener l) 
                 {
@@ -67,7 +72,7 @@ namespace ShootEmUp
         {
             _gameState = GameState.FINISHED;
 
-            foreach (IGameStateListener listener in _startGameInstaller.GameStateListener)
+            foreach (IGameStateListener listener in _gameInstaller.GameStateListener)
             {
                 if (listener is IFinishGameListener l) 
                 {

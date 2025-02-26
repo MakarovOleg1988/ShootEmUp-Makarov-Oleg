@@ -3,15 +3,14 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour
+    public sealed class InputManager : MonoBehaviour, IUpdateable
     {
         public event Action<Vector2> OnMove;
-        public event Action<bool> onPause;
+        public event Action onPause;
         public float HorizontalDirection { get; private set; }
-        public bool IsPaused { get; private set; }
         public bool FireRequired{ get; set;}
 
-        private void Update()
+        public void CustomUpdate()
         {
             HandlerKeyboard();
         }
@@ -54,16 +53,10 @@ namespace ShootEmUp
 
         private void UIHandler()
         {
-            if (Input.GetKeyDown(KeyCode.P) && IsPaused == false)
-            {
-                IsPaused = true;  
-                onPause?.Invoke(IsPaused);
+            if (Input.GetKey(KeyCode.P))
+            {  
+                onPause?.Invoke();
             } 
-            else if (Input.GetKeyDown(KeyCode.P) && IsPaused == true) 
-            {
-                IsPaused = false;  
-                onPause?.Invoke(IsPaused);   
-            }
         }
     }
 }

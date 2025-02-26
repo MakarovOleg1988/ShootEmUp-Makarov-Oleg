@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyMoveAgent : Enemy, IMotionable
+    public sealed class EnemyMoveAgent : Enemy, IMotionable, IFixedUpdateable
     {
         private Vector2 _destination;
 
@@ -26,7 +26,7 @@ namespace ShootEmUp
             IsReached = false;
         }
 
-        private void FixedUpdate()
+        public override void CustomFixedUpdate()
         {
             Motion(_destination);
         }
@@ -46,6 +46,5 @@ namespace ShootEmUp
             var destination = vector.normalized * Time.fixedDeltaTime;
             _moveComponent.MoveByRigidbodyVelocity(destination);
         }
-
     }
 }

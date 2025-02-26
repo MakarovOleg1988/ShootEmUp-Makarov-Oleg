@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class EnemyAttackAgent : Enemy, IFireable
+    public sealed class EnemyAttackAgent : Enemy, IFireable, IFixedUpdateable
     {
         public delegate void FireHandler(GameObject enemy, Vector2 position, Vector2 direction);
         public event FireHandler OnFire;
@@ -23,7 +23,7 @@ namespace ShootEmUp
             _currentTime = _countdown;
         }
 
-        private void FixedUpdate()
+        public void CustomFixedUpdate()
         {
             PrepareFire();
         }

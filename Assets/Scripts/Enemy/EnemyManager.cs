@@ -6,6 +6,7 @@ namespace ShootEmUp
 {
     public sealed class EnemyManager : Enemy
     {
+        [SerializeField] private GameInstaller _gameInstaller;
         [SerializeField] private EnemyPool _enemyPool;
         [SerializeField] private BulletConfig _bulletEnemyConfig;
         [SerializeField] private BulletSystem _bulletSystem;
@@ -28,13 +29,15 @@ namespace ShootEmUp
 
                 GameObject enemyShip;
                 _enemyPool.TrySpawnEnemy(out enemyShip);
-                
+
                 if (enemyShip != null)
                 {
+                        _gameInstaller.RegisterNewIFixedUpdateable(enemyShip.GetComponent<EnemyAttackAgent>());
+
                     if (this._activeEnemies.Add(enemyShip))
                     {
                         enemyShip.GetComponent<HitPointsComponent>().OnIsHpEmpty += this.OnDestroyed;
-                        
+
                         if (enemyShip.TryGetComponent(out EnemyAttackAgent enemyAttackAgent))
                         {
                             enemyAttackAgent.OnFire += this.OnFire;

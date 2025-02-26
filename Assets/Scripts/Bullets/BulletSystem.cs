@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour
+    public sealed class BulletSystem : MonoBehaviour, IFixedUpdateable
     {
         [SerializeField] private Transform _container;
         [SerializeField] private Bullet _prefab;
@@ -30,7 +30,7 @@ namespace ShootEmUp
             }
         }
         
-        private void FixedUpdate()
+        public void CustomFixedUpdate()
         {
             CheckBulletPool();
         }
@@ -89,7 +89,7 @@ namespace ShootEmUp
                 _bulletPool.Enqueue(bullet);
             }
         }
-        
+
         public struct Args
         {
             public Vector2 Position;

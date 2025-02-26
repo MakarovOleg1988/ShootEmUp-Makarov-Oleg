@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : MainCharacter, IFireable
+    public sealed class CharacterController : MainCharacter, IFireable, IFixedUpdateable
     {
         [Header("Objects")]
         [SerializeField] private GameObject _character;
@@ -49,7 +49,7 @@ namespace ShootEmUp
             ServiceLocator.GetService<GameStateController>().FinishViewer();
         }
 
-        private void FixedUpdate()
+        public void CustomFixedUpdate()
         {
             Fire();
         }

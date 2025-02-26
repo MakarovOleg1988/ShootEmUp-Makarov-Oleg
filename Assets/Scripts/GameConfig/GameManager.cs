@@ -2,31 +2,33 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class GameManager : MonoBehaviour, IStartGameListener, IResumeGameListener, IFinishGameListener, IPauseGameListener, IStartMainMenuListener
+    public class GameManager : MonoBehaviour, IStartMainMenuListener, IStartGameListener, IFinishGameListener, IPauseGameListener, IResumeGameListener
     {
+        public bool CanPlay { get; private set; } = true;
+
         public void FinishGame()
         {
-            Time.timeScale = 0;
+            CanPlay = false;
         }
 
         public void StartMainMenu()
         {
-            Time.timeScale = 1;
+            CanPlay = true;
         }
 
         public void PauseGame()
         {
-            Time.timeScale = 0;
+            CanPlay = false;
         }
 
         public void ResumeGame()
         {
-            Time.timeScale = 1;
+            CanPlay = true;
         }
 
         public void StartGame()
         {
-            Time.timeScale = 1;
+            CanPlay = true;
         }
     }
 }

@@ -397,6 +397,51 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &1407162384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407162385}
+  - component: {fileID: 1407162386}
+  m_Layer: 0
+  m_Name: Update Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407162385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407162384}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2028073145}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1407162386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407162384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b484b47cb379264ba78ee4d3c7ae3a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameManager: {fileID: 2028073146}
 --- !u!4 &1670480737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4168970528862166358, guid: 6c0fba0f2f34810449d680f47f357478,
@@ -558,6 +603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2028073145}
+  - component: {fileID: 2028073146}
   m_Layer: 0
   m_Name: '[SYSTEM]'
   m_TagString: Untagged
@@ -573,7 +619,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028073144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.62905455, y: 6.015366, z: 6.238864}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -581,9 +627,22 @@ Transform:
   - {fileID: 299680938}
   - {fileID: 7639624993684307281}
   - {fileID: 1670480737}
+  - {fileID: 1407162385}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2028073146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028073144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697fe7ba192e484db495320b9c01bcd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2594121053944853023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -601,6 +660,11 @@ PrefabInstance:
       propertyPath: gameState
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1739985841302571742, guid: de360dce6c0acd246ac2017683148d95,
+        type: 3}
+      propertyPath: _gameInstaller
+      value: 
+      objectReference: {fileID: 7639624993684307282}
     - target: {fileID: 1739985841302571742, guid: de360dce6c0acd246ac2017683148d95,
         type: 3}
       propertyPath: _startGameInstaller
@@ -664,7 +728,7 @@ PrefabInstance:
     - target: {fileID: 2594121053687150262, guid: de360dce6c0acd246ac2017683148d95,
         type: 3}
       propertyPath: m_Name
-      value: GameStateController
+      value: Game State Controller
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de360dce6c0acd246ac2017683148d95, type: 3}
@@ -745,7 +809,7 @@ PrefabInstance:
     - target: {fileID: 4168970528862166359, guid: 6c0fba0f2f34810449d680f47f357478,
         type: 3}
       propertyPath: m_Name
-      value: SceneSwitcher
+      value: Scene Switcher
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c0fba0f2f34810449d680f47f357478, type: 3}
@@ -770,7 +834,7 @@ PrefabInstance:
     - target: {fileID: 7969958077440449868, guid: 97dfbc6571f9349439685e90ac1bb4c8,
         type: 3}
       propertyPath: m_Name
-      value: StartGameInstaller
+      value: Game Installer
       objectReference: {fileID: 0}
     - target: {fileID: 8358949056673553851, guid: 97dfbc6571f9349439685e90ac1bb4c8,
         type: 3}

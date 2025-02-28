@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public class GameManager : MonoBehaviour, IStartMainMenuListener, IStartGameListener, IFinishGameListener, IPauseGameListener, IResumeGameListener
+    public class GameManager : IStartMainMenuListener, IStartGameListener, IFinishGameListener, IPauseGameListener, IResumeGameListener
     {
         public bool CanPlay { get; private set; } = true;
 

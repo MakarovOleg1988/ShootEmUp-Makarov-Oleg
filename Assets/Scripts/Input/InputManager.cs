@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour, IUpdateable
+    public sealed class InputManager : ITickable
     {
         public event Action<Vector2> OnMove;
         public event Action onPause;
         public float HorizontalDirection { get; private set; }
         public bool FireRequired{ get; set;}
 
-        public void CustomUpdate()
+        public void Tick()
         {
             HandlerKeyboard();
         }

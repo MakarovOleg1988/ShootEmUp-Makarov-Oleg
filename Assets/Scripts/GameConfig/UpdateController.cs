@@ -1,11 +1,12 @@
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
     public class UpdateController : MonoBehaviour
     {
         private GameInstaller _gameInstaller;
-        [SerializeField] private GameManager _gameManager;
+        [Inject] private GameManager _gameManager;
 
         private void Start()
         {

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
     public sealed class EnemyPool : MonoBehaviour
     {
         [Header("Spawn")]
-        [SerializeField] private EnemyPositions _enemyPositions;
+        [Inject] private EnemyPositions _enemyPositions;
         [SerializeField] private Transform _ActiveEnemyContainer;
         
         [Header("Pool")]
@@ -18,6 +19,7 @@ namespace ShootEmUp
         
         private void Awake()
         {
+            _enemyPositions.Initialize();
             FullEnemyPool(_enemyPositions.VolumeSpawnPosition());
         }
 

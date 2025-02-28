@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
@@ -6,12 +7,13 @@ namespace ShootEmUp
     {
         [Header("Objects")]
         [SerializeField] private GameObject _character;
-        [SerializeField] private LevelBounds _levelBounds;
+
 
         [Header("Config")]
         [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private BulletConfig _bulletPlayerConfig;
-        [SerializeField] private InputManager _input;
+        [Inject] private LevelBounds _levelBounds;
+        [Inject] private InputManager _input;
 
         private float _offsetX = 0.01f;
 
@@ -71,8 +73,8 @@ namespace ShootEmUp
         {
             Vector2 vector = _unitPos.position;
 
-            if (vector.x > _levelBounds.LeftBorder.position.x) _unitPos.position = new Vector2(vector.x - _offsetX, vector.y);
-            if (vector.x < _levelBounds.RightBorder.position.x) _unitPos.position = new Vector2(vector.x + _offsetX, vector.y);
+            if (vector.x > _levelBounds.LeftBorder.x) _unitPos.position = new Vector2(vector.x - _offsetX, vector.y);
+            if (vector.x < _levelBounds.RightBorder.x) _unitPos.position = new Vector2(vector.x + _offsetX, vector.y);
         }
 
         public void Fire()

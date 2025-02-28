@@ -1,22 +1,29 @@
 using UnityEngine;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class LevelBounds : MonoBehaviour
+    public sealed class LevelBounds
     {
-        [SerializeField] private Transform _downBorder;
-        [SerializeField] private Transform _topBorder;
-        [SerializeField] private Transform _leftBorder;
-        [SerializeField] private Transform _rightBorder;
-        
-        public Transform LeftBorder
+        [Inject] private LevelBoundsConfic _levelBoundsConfic;
+
+        public Vector3 LeftBorder
         {
-            get { return _leftBorder; }
+            get { return _levelBoundsConfic.LeftBorder; }
         }
 
-        public Transform RightBorder 
+        public Vector3 RightBorder 
         {
-            get { return _rightBorder; }
+            get { return _levelBoundsConfic.RightBorder; }
+        }
+
+        public Vector3 TopBorder         
+        {
+            get { return _levelBoundsConfic.TopBorder; }
+        }
+        public Vector3 DownBorder         
+        {
+            get { return _levelBoundsConfic.DownBorder; }
         }
 
         public bool InBounds(Vector3 position)
@@ -24,10 +31,10 @@ namespace ShootEmUp
             var positionX = position.x;
             var positionY = position.y;
 
-            return positionX > _leftBorder.position.x
-                   && positionX < _rightBorder.position.x
-                   && positionY > _downBorder.position.y
-                   && positionY < _topBorder.position.y;
+            return positionX > _levelBoundsConfic.LeftBorder.x
+                   && positionX < _levelBoundsConfic.RightBorder.x
+                   && positionY > _levelBoundsConfic.DownBorder.y
+                   && positionY < _levelBoundsConfic.TopBorder.y;
         }
     }
 }

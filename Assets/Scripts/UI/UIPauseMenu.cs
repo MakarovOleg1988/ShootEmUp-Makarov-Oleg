@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ShootEmUp
 {
     public sealed class UIPauseMenu : MonoBehaviour, IPauseGameListener, IResumeGameListener
     {
-
+        [Inject] private InputManager _input;
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private SceneSwitcher _sceneSwitcher;
+        [Inject] private SceneSwitcher _sceneSwitcher;
         [SerializeField] private Button _returnToMainMenuButton, _resumeButton;
 
         private void Awake()
@@ -18,7 +19,7 @@ namespace ShootEmUp
 
         private void Start()
         {
-            ServiceLocator.GetService<InputManager>().onPause += Pause;
+            _input.onPause += Pause;
         }
 
         private void Pause()
@@ -50,7 +51,7 @@ namespace ShootEmUp
             _returnToMainMenuButton.onClick.RemoveListener(StartMainMenu);
             _resumeButton.onClick.RemoveListener(Resume);
 
-            ServiceLocator.GetService<InputManager>().onPause -= Pause;
+            _input.onPause -= Pause;
         }
 
 

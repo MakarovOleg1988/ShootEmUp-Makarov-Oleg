@@ -1,9 +1,8 @@
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ShootEmUp
 {
-    public class SceneSwitcher : MonoBehaviour
+    public class SceneSwitcher
     {
         private int _defaultScene = 0;
 

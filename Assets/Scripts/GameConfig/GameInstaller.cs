@@ -14,7 +14,6 @@ namespace ShootEmUp
         [Space(15f), SerializeField] private GameStateController _gameStateController;
         [Space(15f), SerializeField] private EnemyPositions _EnemyPositions;
         [Space(15f), SerializeField] private EnemyManager _enemyManager;
-        [Space(15f), SerializeField] private InputManager _inputManager;
 
         private int _delayTimer = 200;
 
@@ -42,7 +41,6 @@ namespace ShootEmUp
             ServiceLocator.AddServices(typeof(GameStateController), _gameStateController);
             ServiceLocator.AddServices(typeof(EnemyPositions), _EnemyPositions);
             ServiceLocator.AddServices(typeof(EnemyManager), _enemyManager);
-            ServiceLocator.AddServices(typeof(InputManager), _inputManager);
         }
 
         public void RegisterNewIUpdateable(IUpdateable IUpdateable)

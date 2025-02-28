@@ -201,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space Shooter
+  m_text: "\u0417\u0432\u0435\u0437\u0434\u043D\u0430\u044F \u0421\u0442\u0440\u0435\u043B\u044F\u043B\u043A\u0430"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: "\u0418\u0433\u0440\u0430"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit
+  m_text: "\u0412\u044B\u0445\u043E\u0434"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1077,13 +1077,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50b24c76cdff78439515e52088d888a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneSwitcher: {fileID: 0}
   _startMenuCanvas: {fileID: 6445906903344336024}
   _loadingBarCanvas: {fileID: 5041398504371137751}
   _countText: {fileID: 22806111}
   _startGameButton: {fileID: 7753689412416282135}
   _quitGameButton: {fileID: 3690750983297098130}
-  _delayTimer: 3
+  _count: 0
 --- !u!1 &6881783261783583417
 GameObject:
   m_ObjectHideFlags: 0

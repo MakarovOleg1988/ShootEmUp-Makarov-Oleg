@@ -3,12 +3,13 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ShootEmUp
 {
-    public sealed class UIMainMenu : MonoBehaviour, IStartGameListener, IDisposable
+    public sealed class UIMainMenu : MonoBehaviour, IStartGameListener
     {
-        [SerializeField] private SceneSwitcher _sceneSwitcher;
+        [Inject] private SceneSwitcher _sceneSwitcher;
         [SerializeField] private Canvas _startMenuCanvas;
         [SerializeField] private Canvas _loadingBarCanvas;
         [SerializeField] private TextMeshProUGUI _countText;
@@ -39,7 +40,7 @@ namespace ShootEmUp
             _sceneSwitcher.QuitApplication();
         }
 
-        public void Dispose()
+        public void OnDestroy()
         {
             _startGameButton.onClick.RemoveListener(StartGame);
             _quitGameButton.onClick.RemoveListener(Quit);
